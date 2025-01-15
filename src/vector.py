@@ -30,7 +30,12 @@ class Vec(object):
         lengths = [self.dim] + [kwargs[key] for key in ['dim', 'size', 'length', 'len'] if key in kwargs.keys()]
         self.dim = max(lengths)
         extend(self.values, self.dim - 1)
+
     def set_values(self, int_val=None, seq=None, dict=None, pair=None):
+        '''
+        extending values for: int, seq, pair
+        dict - extending or replacing depending on whether index is within size of values
+        '''
         if int_val:
             self.values.extend([int_val])
         if seq:
