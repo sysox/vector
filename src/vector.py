@@ -17,22 +17,20 @@ class Vec(object):
                 self.values.extend(arg.values)
             elif hasattr(arg, "__iter__"):
                 if isinstance(arg, tuple) and len(arg) == 2:
-                    self.set(pair=arg)
+                    self.set_values(pair=arg)
                 elif isinstance(arg, collections.abc.Mapping):
-                    self.set(dict=arg)
+                    self.set_values(dict=arg)
                 else:
-                    self.set(seq=arg)
+                    self.set_values(seq=arg)
             elif isinstance(arg, int):
-                self.set(int_val=arg)
+                self.set_values(int_val=arg)
             else:
                 print('Unsupported type {}'.format(type(arg)))
-
-        if 'dim' in kwargs:
-            extend(self.values, kwargs['dim'])
-            self.values = self.values[:kwargs['dim']]
         self.dim = len(self.values)
-
-    def set(self, int_val=None, seq=None, dict=None, pair=None):
+        lengths = [self.dim] + [kwargs[key] for key in ['dim', 'size', 'length', 'len'] if key in kwargs.keys()]
+        self.dim = max(lengths)
+        extend(self.values, self.dim - 1)
+    def set_values(self, int_val=None, seq=None, dict=None, pair=None):
         if int_val:
             self.values.extend([int_val])
         if seq:
@@ -250,13 +248,13 @@ class Vec(object):
 
 
 
-if __name__ == "__main__":
-    vec1 = Vec(1,[2, 3], ([4, 5], 9), {7: 7, 8: 7})
-    vec2 = Vec(vec1, {1:0})
-    print(vec1, vec2, sep='\n')
-    print(vec1 ^ vec2)
-    print(vec1 % 2)
-    print(vec1 * vec2)
-    print(vec1.inner(vec2))
+# if __name__ == "__main__":
+#     vec1 = Vec(1,[2, 3], ([4, 5], 9), {7: 7, 8: 7})
+#     vec2 = Vec(vec1, {1:0})
+#     print(vec1, vec2, sep='\n')
+#     print(vec1 ^ vec2)
+#     print(vec1 % 2)
+#     print(vec1 * vec2)
+#     print(vec1.inner(vec2))
 
 
